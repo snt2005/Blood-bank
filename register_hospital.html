@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hospital Registration - Blood Bank Management System</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="mb-0">Hospital Registration</h4>
+                    </div>
+                    <div class="card-body">
+                        <div id="errorAlert" class="alert alert-danger d-none"></div>
+                        <form id="registrationForm" onsubmit="registerHospital(event)">
+                            <div class="mb-3">
+                                <label for="username" class="form-label">Username</label>
+                                <input type="text" class="form-control" id="username" name="username" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="email" class="form-label">Email</label>
+                                <input type="email" class="form-control" id="email" name="email" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="password" class="form-label">Password</label>
+                                <input type="password" class="form-control" id="password" name="password" required minlength="6">
+                                <div class="form-text">Password must be at least 6 characters long</div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="name" class="form-label">Hospital Name</label>
+                                <input type="text" class="form-control" id="name" name="name" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="address" class="form-label">Address</label>
+                                <textarea class="form-control" id="address" name="address" rows="2" required></textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label for="city" class="form-label">City</label>
+                                <input type="text" class="form-control" id="city" name="city" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="contact" class="form-label">Contact Number</label>
+                                <input type="tel" class="form-control" id="contact" name="contact" required pattern="[0-9]{10}">
+                                <div class="form-text">Enter a 10-digit phone number</div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="license_number" class="form-label">Hospital License Number</label>
+                                <input type="text" class="form-control" id="license_number" name="license_number" required>
+                                <div class="form-text">Enter your hospital's official license number</div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="operating_hours" class="form-label">Operating Hours</label>
+                                <textarea class="form-control" id="operating_hours" name="operating_hours" rows="2" required></textarea>
+                                <div class="form-text">Enter your hospital's operating hours (e.g., "24/7" or "Mon-Fri: 9AM-5PM")</div>
+                            </div>
+                            <div class="d-grid gap-2">
+                                <button type="submit" class="btn btn-primary" id="submitBtn">Register</button>
+                                <a href="login.html" class="btn btn-link">Already have an account? Login</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function showError(message) {
+            const errorAlert = document.getElementById('errorAlert');
+            errorAlert.textContent = message;
+            errorAlert.classList.remove('d-none');
+        }
+
+        function registerHospital(event) {
+            event.preventDefault();
+            
+            // Hide any previous error
+            document.getElementById('errorAlert').classList.add('d-none');
+            
+            // Disable submit button
+            const submitBtn = document.getElementById('submitBtn');
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Registering...';
+            
+            const form = event.target;
+            const formData = new FormData(form);
+            const data = Object.fromEntries(formData.entries());
+            
+            // Validate phone number
+            if (!/^[0-9]{10}$/.test(data.contact)) {
+                showError('Please enter a valid 10-digit phone number');
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Register';
+                return;
+            }
+            
+            fetch('auth/register_hospital.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => {
+                if (!response.ok) {
+                    return response.json().then(err => Promise.reject(err));
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.success) {
+                    alert(data.message);
+                    window.location.href = 'login.html';
+                } else {
+                    showError(data.error || 'Registration failed');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                showError(error.error || 'An error occurred during registration');
+            })
+            .finally(() => {
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Register';
+            });
+        }
+    </script>
+</body>
+</html> 

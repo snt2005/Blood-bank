@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recipient Dashboard - Blood Bank Management System</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="#">Blood Bank Management System</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#" data-section="profile">Profile</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" data-section="requests">Blood Requests</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" data-section="history">Request History</a>
+                    </li>
+                </ul>
+                <div class="d-flex align-items-center">
+                    <div class="dropdown">
+                        <button class="btn btn-light dropdown-toggle" type="button" id="notificationsDropdown" data-bs-toggle="dropdown">
+                            <i class="bi bi-bell"></i>
+                            <span id="notification-badge" class="badge bg-danger d-none">0</span>
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-end" id="notifications-list" style="width: 300px;">
+                            <h6 class="dropdown-header">Notifications</h6>
+                            <div class="dropdown-divider"></div>
+                            <div id="notifications-content"></div>
+                        </div>
+                    </div>
+                    <div class="dropdown ms-3">
+                        <button class="btn btn-light dropdown-toggle" type="button" id="userDropdown" data-bs-toggle="dropdown">
+                            <i class="bi bi-person-circle"></i>
+                            <span id="user-name">Loading...</span>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="#" data-section="profile">Profile</a></li>
+                            <li><a class="dropdown-item" href="#" id="logout-btn">Logout</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <!-- Profile Section -->
+        <div id="profile-section" class="dashboard-section">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <img src="https://via.placeholder.com/150" class="rounded-circle mb-3" alt="Profile Picture" id="profile-picture">
+                            <h4 id="recipient-name">Loading...</h4>
+                            <p class="text-muted" id="recipient-blood-group">Loading...</p>
+                            <button class="btn btn-outline-primary btn-sm" id="edit-profile-btn">
+                                <i class="bi bi-pencil"></i> Edit Profile
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-8">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Personal Information</h5>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <p><strong>Age:</strong> <span id="recipient-age">Loading...</span></p>
+                                    <p><strong>Gender:</strong> <span id="recipient-gender">Loading...</span></p>
+                                    <p><strong>Contact:</strong> <span id="recipient-contact">Loading...</span></p>
+                                </div>
+                                <div class="col-md-6">
+                                    <p><strong>Email:</strong> <span id="recipient-email">Loading...</span></p>
+                                    <p><strong>Address:</strong> <span id="recipient-address">Loading...</span></p>
+                                    <p><strong>Last Request:</strong> <span id="recipient-last-request">Loading...</span></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Blood Requests Section -->
+        <div id="requests-section" class="dashboard-section d-none">
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h5 class="card-title mb-0">Blood Requests</h5>
+                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#requestBloodModal">
+                            <i class="bi bi-plus"></i> Request Blood
+                        </button>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Blood Group</th>
+                                    <th>Units</th>
+                                    <th>Required By</th>
+                                    <th>Hospital</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="requests-list">
+                                <!-- Requests will be loaded here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Request History Section -->
+        <div id="history-section" class="dashboard-section d-none">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Request History</h5>
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Blood Group</th>
+                                    <th>Units</th>
+                                    <th>Hospital</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="history-list">
+                                <!-- Request history will be loaded here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Request Blood Modal -->
+    <div class="modal fade" id="requestBloodModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Request Blood</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="request-form">
+                        <div class="mb-3">
+                            <label for="blood-group" class="form-label">Blood Group</label>
+                            <select class="form-select" id="blood-group" required>
+                                <option value="">Select blood group...</option>
+                                <option value="A+">A+</option>
+                                <option value="A-">A-</option>
+                                <option value="B+">B+</option>
+                                <option value="B-">B-</option>
+                                <option value="AB+">AB+</option>
+                                <option value="AB-">AB-</option>
+                                <option value="O+">O+</option>
+                                <option value="O-">O-</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="units" class="form-label">Number of Units</label>
+                            <input type="number" class="form-control" id="units" min="1" max="10" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="required-by" class="form-label">Required By Date</label>
+                            <input type="date" class="form-control" id="required-by" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="hospital" class="form-label">Hospital</label>
+                            <select class="form-select" id="hospital" required>
+                                <option value="">Select hospital...</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="reason" class="form-label">Reason (Optional)</label>
+                            <textarea class="form-control" id="reason" rows="3"></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" id="submit-request-btn">Submit Request</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Check if user is logged in
+        const user = JSON.parse(localStorage.getItem('user'));
+        if (!user || user.role !== 'recipient') {
+            window.location.href = 'login.html';
+        }
+
+        // Update user name in navbar
+        document.getElementById('user-name').textContent = user.full_name;
+
+        // Navigation handling
+        document.querySelectorAll('[data-section]').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const section = e.target.dataset.section;
+                showSection(section);
+            });
+        });
+
+        function showSection(section) {
+            document.querySelectorAll('.dashboard-section').forEach(div => {
+                div.classList.add('d-none');
+            });
+            document.getElementById(`${section}-section`).classList.remove('d-none');
+            
+            // Update active nav link
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+            });
+            document.querySelector(`[data-section="${section}"]`).classList.add('active');
+        }
+
+        // Load recipient profile
+        function loadRecipientProfile() {
+            fetch('recipient/profile.php')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        showError(data.error);
+                        return;
+                    }
+                    
+                    const recipient = data.recipient;
+                    document.getElementById('recipient-name').textContent = recipient.name;
+                    document.getElementById('recipient-blood-group').textContent = recipient.blood_group;
+                    document.getElementById('recipient-age').textContent = recipient.age;
+                    document.getElementById('recipient-gender').textContent = recipient.gender;
+                    document.getElementById('recipient-contact').textContent = recipient.contact;
+                    document.getElementById('recipient-email').textContent = recipient.email;
+                    document.getElementById('recipient-address').textContent = recipient.address;
+                    document.getElementById('recipient-last-request').textContent = recipient.last_request || 'Never';
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    showError('Failed to load profile data');
+                });
+        }
+
+        // Load blood requests
+        function loadBloodRequests() {
+            fetch('recipient/requests.php')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        showError(data.error);
+                        return;
+                    }
+                    
+                    const requestsList = document.getElementById('requests-list');
+                    requestsList.innerHTML = '';
+                    
+                    data.requests.forEach(request => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${request.request_date}</td>
+                            <td>${request.blood_group}</td>
+                            <td>${request.units}</td>
+                            <td>${request.required_by}</td>
+                            <td>${request.hospital_name}</td>
+                            <td><span class="badge bg-${getStatusBadgeColor(request.status)}">${request.status}</span></td>
+                            <td>
+                                ${request.status === 'pending' ? `
+                                    <button class="btn btn-sm btn-danger" onclick="cancelRequest(${request.request_id})">
+                                        Cancel
+                                    </button>
+                                ` : ''}
+                            </td>
+                        `;
+                        requestsList.appendChild(row);
+                    });
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    showError('Failed to load blood requests');
+                });
+        }
+
+        // Load request history
+        function loadRequestHistory() {
+            fetch('recipient/history.php')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        showError(data.error);
+                        return;
+                    }
+                    
+                    const historyList = document.getElementById('history-list');
+                    historyList.innerHTML = '';
+                    
+                    data.history.forEach(request => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${request.request_date}</td>
+                            <td>${request.blood_group}</td>
+                            <td>${request.units}</td>
+                            <td>${request.hospital_name}</td>
+                            <td><span class="badge bg-${getStatusBadgeColor(request.status)}">${request.status}</span></td>
+                        `;
+                        historyList.appendChild(row);
+                    });
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    showError('Failed to load request history');
+                });
+        }
+
+        // Load hospitals for request form
+        function loadHospitals() {
+            fetch('recipient/hospitals.php')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        showError(data.error);
+                        return;
+                    }
+                    
+                    const hospitalSelect = document.getElementById('hospital');
+                    hospitalSelect.innerHTML = '<option value="">Select hospital...</option>';
+                    
+                    data.hospitals.forEach(hospital => {
+                        const option = document.createElement('option');
+                        option.value = hospital.hospital_id;
+                        option.textContent = hospital.name;
+                        hospitalSelect.appendChild(option);
+                    });
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    showError('Failed to load hospitals');
+                });
+        }
+
+        // Submit blood request
+        document.getElementById('submit-request-btn').addEventListener('click', () => {
+            const formData = {
+                blood_group: document.getElementById('blood-group').value,
+                units: document.getElementById('units').value,
+                required_by: document.getElementById('required-by').value,
+                hospital_id: document.getElementById('hospital').value,
+                reason: document.getElementById('reason').value
+            };
+
+            fetch('recipient/request_blood.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    showError(data.error);
+                    return;
+                }
+                
+                // Close modal and reload requests
+                bootstrap.Modal.getInstance(document.getElementById('requestBloodModal')).hide();
+                loadBloodRequests();
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                showError('Failed to submit blood request');
+            });
+        });
+
+        // Cancel request
+        function cancelRequest(requestId) {
+            if (!confirm('Are you sure you want to cancel this request?')) {
+                return;
+            }
+
+            fetch('recipient/cancel_request.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ request_id: requestId })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    showError(data.error);
+                    return;
+                }
+                
+                loadBloodRequests();
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                showError('Failed to cancel request');
+            });
+        }
+
+        // Load notifications
+        function loadNotifications() {
+            fetch('notifications.php')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        return;
+                    }
+                    
+                    const notificationsContent = document.getElementById('notifications-content');
+                    const notificationBadge = document.getElementById('notification-badge');
+                    
+                    if (data.notifications.length === 0) {
+                        notificationsContent.innerHTML = '<div class="dropdown-item text-center">No new notifications</div>';
+                        notificationBadge.classList.add('d-none');
+                    } else {
+                        notificationsContent.innerHTML = '';
+                        data.notifications.forEach(notification => {
+                            const item = document.createElement('div');
+                            item.className = 'dropdown-item';
+                            item.innerHTML = `
+                                <div class="d-flex align-items-center">
+                                    <div class="flex-grow-1">
+                                        <h6 class="mb-0">${notification.title}</h6>
+                                        <small class="text-muted">${notification.message}</small>
+                                    </div>
+                                    <small class="text-muted ms-2">${notification.created_at}</small>
+                                </div>
+                            `;
+                            notificationsContent.appendChild(item);
+                        });
+                        
+                        notificationBadge.textContent = data.notifications.length;
+                        notificationBadge.classList.remove('d-none');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        }
+
+        // Helper functions
+        function getStatusBadgeColor(status) {
+            switch (status.toLowerCase()) {
+                case 'pending':
+                    return 'warning';
+                case 'approved':
+                    return 'success';
+                case 'rejected':
+                    return 'danger';
+                case 'completed':
+                    return 'info';
+                default:
+                    return 'secondary';
+            }
+        }
+
+        function showError(message) {
+            // Implement error display logic
+            console.error(message);
+        }
+
+        // Logout handling
+        document.getElementById('logout-btn').addEventListener('click', (e) => {
+            e.preventDefault();
+            localStorage.removeItem('user');
+            window.location.href = 'login.html';
+        });
+
+        // Initial load
+        loadRecipientProfile();
+        loadBloodRequests();
+        loadRequestHistory();
+        loadHospitals();
+        loadNotifications();
+
+        // Refresh notifications every minute
+        setInterval(loadNotifications, 60000);
+    </script>
+</body>
+</html> 

@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - Blood Bank Management System</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="style.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body class="bg-light register-page-body">
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card register-card">
+                    <div class="card-body">
+                        <h2 class="text-center mb-4">Register</h2>
+                        <ul class="nav nav-tabs mb-4" id="registerTabs" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link active" id="donor-tab" data-bs-toggle="tab" data-bs-target="#donor" type="button" role="tab">Donor</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="recipient-tab" data-bs-toggle="tab" data-bs-target="#recipient" type="button" role="tab">Recipient</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="hospital-tab" data-bs-toggle="tab" data-bs-target="#hospital" type="button" role="tab">Hospital</button>
+                            </li>
+                        </ul>
+                        <div class="tab-content" id="registerTabsContent">
+                            <!-- Donor Registration Form -->
+                            <div class="tab-pane fade show active" id="donor" role="tabpanel">
+                                <form id="donor-form">
+                                    <div class="mb-3">
+                                        <label for="donor-username" class="form-label">Username</label>
+                                        <input type="text" class="form-control" id="donor-username" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="donor-name" class="form-label">Full Name</label>
+                                        <input type="text" class="form-control" id="donor-name" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="donor-email" class="form-label">Email</label>
+                                        <input type="email" class="form-control" id="donor-email" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="donor-password" class="form-label">Password</label>
+                                        <input type="password" class="form-control" id="donor-password" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="donor-blood-group" class="form-label">Blood Group</label>
+                                        <select class="form-select" id="donor-blood-group" required>
+                                            <option value="">Select blood group...</option>
+                                            <option value="A+">A+</option>
+                                            <option value="A-">A-</option>
+                                            <option value="B+">B+</option>
+                                            <option value="B-">B-</option>
+                                            <option value="AB+">AB+</option>
+                                            <option value="AB-">AB-</option>
+                                            <option value="O+">O+</option>
+                                            <option value="O-">O-</option>
+                                        </select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="donor-age" class="form-label">Age</label>
+                                        <input type="number" class="form-control" id="donor-age" min="18" max="65" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="donor-gender" class="form-label">Gender</label>
+                                        <select class="form-select" id="donor-gender" required>
+                                            <option value="">Select gender...</option>
+                                            <option value="male">Male</option>
+                                            <option value="female">Female</option>
+                                            <option value="other">Other</option>
+                                        </select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="donor-contact" class="form-label">Contact Number</label>
+                                        <input type="tel" class="form-control" id="donor-contact" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="donor-address" class="form-label">Address</label>
+                                        <textarea class="form-control" id="donor-address" rows="3" required></textarea>
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <label for="donor-city" class="form-label">City</label>
+                                        <input type="text" class="form-control" id="donor-city" required>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary w-100">Register as Donor</button>
+                                </form>
+                            </div>
+
+                            <!-- Recipient Registration Form -->
+                            <div class="tab-pane fade" id="recipient" role="tabpanel">
+                                <form id="recipient-form">
+                                    <div class="mb-3">
+                                        <label for="recipient-username" class="form-label">Username</label>
+                                        <input type="text" class="form-control" id="recipient-username" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="recipient-name" class="form-label">Full Name</label>
+                                        <input type="text" class="form-control" id="recipient-name" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="recipient-email" class="form-label">Email</label>
+                                        <input type="email" class="form-control" id="recipient-email" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="recipient-password" class="form-label">Password</label>
+                                        <input type="password" class="form-control" id="recipient-password" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="recipient-blood-group" class="form-label">Blood Group</label>
+                                        <select class="form-select" id="recipient-blood-group" required>
+                                            <option value="">Select blood group...</option>
+                                            <option value="A+">A+</option>
+                                            <option value="A-">A-</option>
+                                            <option value="B+">B+</option>
+                                            <option value="B-">B-</option>
+                                            <option value="AB+">AB+</option>
+                                            <option value="AB-">AB-</option>
+                                            <option value="O+">O+</option>
+                                            <option value="O-">O-</option>
+                                        </select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="recipient-age" class="form-label">Age</label>
+                                        <input type="number" class="form-control" id="recipient-age" min="1" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="recipient-gender" class="form-label">Gender</label>
+                                        <select class="form-select" id="recipient-gender" required>
+                                            <option value="">Select gender...</option>
+                                            <option value="male">Male</option>
+                                            <option value="female">Female</option>
+                                            <option value="other">Other</option>
+                                        </select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="recipient-contact" class="form-label">Contact Number</label>
+                                        <input type="tel" class="form-control" id="recipient-contact" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="recipient-address" class="form-label">Address</label>
+                                        <textarea class="form-control" id="recipient-address" rows="3" required></textarea>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="recipient-city" class="form-label">City</label>
+                                        <input type="text" class="form-control" id="recipient-city" required>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary w-100">Register as Recipient</button>
+                                </form>
+                            </div>
+
+                            <!-- Hospital Registration Form -->
+                            <div class="tab-pane fade" id="hospital" role="tabpanel">
+                                <form id="hospital-form">
+                                    <div class="mb-3">
+                                        <label for="hospital-username" class="form-label">Username</label>
+                                        <input type="text" class="form-control" id="hospital-username" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="hospital-name" class="form-label">Hospital Name</label>
+                                        <input type="text" class="form-control" id="hospital-name" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="hospital-email" class="form-label">Email</label>
+                                        <input type="email" class="form-control" id="hospital-email" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="hospital-password" class="form-label">Password</label>
+                                        <input type="password" class="form-control" id="hospital-password" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="hospital-license" class="form-label">License Number</label>
+                                        <input type="text" class="form-control" id="hospital-license" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="hospital-contact" class="form-label">Contact Number</label>
+                                        <input type="tel" class="form-control" id="hospital-contact" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="hospital-address" class="form-label">Address</label>
+                                        <textarea class="form-control" id="hospital-address" rows="3" required></textarea>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="hospital-city" class="form-label">City</label>
+                                        <input type="text" class="form-control" id="hospital-city" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="hospital-hours" class="form-label">Operating Hours</label>
+                                        <input type="text" class="form-control" id="hospital-hours" placeholder="e.g., 9:00 AM - 5:00 PM" required>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary w-100">Register as Hospital</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-center mt-3">
+                    <p>Already have an account? <a href="login.html">Login here</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Handle form submissions
+        document.getElementById('donor-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const formData = {
+                username: document.getElementById('donor-username').value,
+                name: document.getElementById('donor-name').value,
+                email: document.getElementById('donor-email').value,
+                password: document.getElementById('donor-password').value,
+                blood_group: document.getElementById('donor-blood-group').value,
+                age: document.getElementById('donor-age').value,
+                weight: 70, // Default weight
+                gender: document.getElementById('donor-gender').value,
+                contact: document.getElementById('donor-contact').value,
+                city: document.getElementById('donor-city').value,
+                address: document.getElementById('donor-address').value,
+                role: 'donor'
+            };
+            registerUser(formData, 'auth/register_donor.php');
+        });
+
+        document.getElementById('recipient-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const formData = {
+                username: document.getElementById('recipient-username').value,
+                name: document.getElementById('recipient-name').value,
+                email: document.getElementById('recipient-email').value,
+                password: document.getElementById('recipient-password').value,
+                blood_group: document.getElementById('recipient-blood-group').value,
+                age: document.getElementById('recipient-age').value,
+                gender: document.getElementById('recipient-gender').value,
+                contact: document.getElementById('recipient-contact').value,
+                city: document.getElementById('recipient-city').value,
+                address: document.getElementById('recipient-address').value,
+                role: 'recipient'
+            };
+            registerUser(formData, 'auth/register_recipient.php');
+        });
+
+        document.getElementById('hospital-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const formData = {
+                username: document.getElementById('hospital-username').value,
+                name: document.getElementById('hospital-name').value,
+                email: document.getElementById('hospital-email').value,
+                password: document.getElementById('hospital-password').value,
+                license_number: document.getElementById('hospital-license').value,
+                address: document.getElementById('hospital-address').value,
+                city: document.getElementById('hospital-city').value,
+                contact: document.getElementById('hospital-contact').value,
+                operating_hours: document.getElementById('hospital-hours').value,
+                role: 'hospital'
+            };
+            registerUser(formData, 'auth/register_hospital.php');
+        });
+
+        function registerUser(formData, endpoint) {
+            const submitBtn = event.target.querySelector('button[type="submit"]');
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Registering...';
+
+            fetch(endpoint, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData)
+            })
+            .then(response => {
+                return response.json().then(data => {
+                    if (!response.ok) {
+                        throw new Error(data.error || 'Registration failed');
+                    }
+                    return data;
+                });
+            })
+            .then(data => {
+                if (data.success) {
+                    alert(data.message);
+                    window.location.href = 'login.html';
+                } else {
+                    throw new Error(data.error || 'Registration failed');
+                }
+            })
+            .catch(error => {
+                alert(error.message || 'An error occurred during registration');
+            })
+            .finally(() => {
+                submitBtn.disabled = false;
+                submitBtn.textContent = submitBtn.textContent.replace('Registering...', 'Register');
+            });
+        }
+    </script>
+</body>
+</html>

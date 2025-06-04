@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Blood Bank Management System</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body class="bg-light login-page-body">
+    <div class="container">
+        <div class="row justify-content-center mt-5">
+            <div class="col-md-6 col-lg-4">
+                <div class="card shadow login-card">
+                    <div class="card-body">
+                        <h2 class="text-center mb-4">Login</h2>
+                        <div id="error-message" class="alert alert-danger d-none"></div>
+                        <form id="loginForm" onsubmit="return handleLogin(event)">
+                            <div class="mb-3">
+                                <label for="username" class="form-label">Username</label>
+                                <input type="text" class="form-control" id="username" name="username" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="password" class="form-label">Password</label>
+                                <input type="password" class="form-control" id="password" name="password" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="role" class="form-label">Login As</label>
+                                <select class="form-select" id="role" name="role" required>
+                                    <option value="">Select Role</option>
+                                    <option value="donor">Donor</option>
+                                    <option value="recipient">Recipient</option>
+                                    <option value="hospital">Hospital</option>
+                                    <option value="admin">Admin</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="btn btn-primary w-100">Login</button>
+                        </form>
+                        <div class="mt-3 text-center">
+                            <p>Don't have an account? <a href="register.html">Register here</a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showError(message) {
+            const errorDiv = document.getElementById('error-message');
+            errorDiv.textContent = message;
+            errorDiv.classList.remove('d-none');
+        }
+
+        function handleLogin(event) {
+            event.preventDefault();
+            
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const role = document.getElementById('role').value;
+
+            // Hide any previous error messages
+            document.getElementById('error-message').classList.add('d-none');
+
+            // Disable the submit button
+            const submitButton = event.target.querySelector('button[type="submit"]');
+            submitButton.disabled = true;
+            submitButton.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Logging in...';
+
+            fetch('auth/login.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    username: username,
+                    password: password,
+                    role: role
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Login response:', data);
+                
+                if (data.error) {
+                    showError(data.error);
+                    submitButton.disabled = false;
+                    submitButton.innerHTML = 'Login';
+                    return;
+                }
+
+                if (data.success) {
+                    // Store user data in localStorage
+                    localStorage.setItem('user', JSON.stringify(data.user));
+                    
+                    // Redirect based on role
+                    switch(data.user.role) {
+                        case 'donor':
+                            window.location.href = 'donor_dashboard.php';
+                            break;
+                        case 'recipient':
+                            window.location.href = 'recipient_dashboard.php';
+                            break;
+                        case 'hospital':
+                            window.location.href = 'hospital_dashboard.php';
+                            break;
+                        case 'admin':
+                            window.location.href = 'admin_dashboard.php';
+                            break;
+                        default:
+                            showError('Invalid role');
+                            submitButton.disabled = false;
+                            submitButton.innerHTML = 'Login';
+                    }
+                } else {
+                    showError('Login failed. Please check your credentials.');
+                    submitButton.disabled = false;
+                    submitButton.innerHTML = 'Login';
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                showError('An error occurred during login. Please try again.');
+                submitButton.disabled = false;
+                submitButton.innerHTML = 'Login';
+            });
+
+            return false;
+        }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
